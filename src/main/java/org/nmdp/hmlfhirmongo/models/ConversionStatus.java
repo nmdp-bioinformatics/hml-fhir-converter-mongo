@@ -24,6 +24,7 @@ package org.nmdp.hmlfhirmongo.models;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
@@ -47,6 +48,8 @@ public class ConversionStatus implements Serializable {
         this.hmlId = hmlId;
         this.status = status;
         this.size = size;
+        this.fhirId = new ObjectId().toString();
+        this.endTime = new DateTime();
     }
 
     public String getId() {

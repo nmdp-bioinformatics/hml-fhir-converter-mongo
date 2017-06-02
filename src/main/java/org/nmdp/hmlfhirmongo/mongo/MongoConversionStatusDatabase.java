@@ -26,9 +26,11 @@ package org.nmdp.hmlfhirmongo.mongo;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.nmdp.hmlfhirmongo.config.MongoConfiguration;
 import org.nmdp.hmlfhirmongo.models.ConversionStatus;
@@ -51,14 +53,18 @@ public class MongoConversionStatusDatabase extends MongoDatabase {
     }
 
     public void update(String id, Boolean success, String fhirId) {
-        Document update = new Document("fhirId", fhirId).append("status", success ? Status.COMPLETE : Status.ERROR)
-                .append("endTime", new DateTime()).append("success", success);
+        BasicDBObject update = new BasicDBObject();
 
-        collection.updateOne(Filters.eq("_id", id), update);
+        update.append("$set", new BasicDBObject().append("fhirId", fhirId));
+        update.append("$set", new BasicDBObject().append("status", success ? Status.COMPLETE : Status.ERROR));
+        update.append("$set", new BasicDBObject().append("endTime", new DateTime()));
+        update.append("$set", new BasicDBObject().append("success", success));
+
+        collection.updateOne(Filters.eq("_id", new ObjectId(id)), update);
     }
 
     public Document get(String id) {
-        return collection.find(Filters.eq("_id", id)).first();
+        return collection.find(Filters.eq("_id", new ObjectId(id))).first();
     }
 
     public String toJson(ConversionStatus conversionStatus) {

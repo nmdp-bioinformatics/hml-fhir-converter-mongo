@@ -29,6 +29,7 @@ import com.google.gson.GsonBuilder;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.nmdp.hmlfhirconvertermodels.domain.fhir.FhirMessage;
 import org.nmdp.hmlfhirmongo.config.MongoConfiguration;
 
@@ -49,7 +50,7 @@ public class MongoFhirDatabase extends MongoDatabase {
     }
 
     public Document get(String id) {
-        return collection.find(Filters.eq("_id", id)).first();
+        return collection.find(Filters.eq("_id", new ObjectId(id))).first();
     }
 
     public String toJson(FhirMessage fhir) {
