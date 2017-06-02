@@ -41,8 +41,11 @@ public class MongoFhirDatabase extends MongoDatabase {
         collection = super.database.getCollection("fhir");
     }
 
-    public void save(FhirMessage fhir) {
-        collection.insertOne(toDocument(fhir));
+    public FhirMessage save(FhirMessage fhir) {
+        Document document = toDocument(fhir);
+        collection.insertOne(document);
+        fhir.setId(document.get("_id").toString());
+        return fhir;
     }
 
     public Document get(String id) {

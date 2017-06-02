@@ -29,53 +29,45 @@ import com.google.gson.GsonBuilder;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
-import org.nmdp.hmlfhirconvertermodels.domain.Hml;
+import org.joda.time.DateTime;
 import org.nmdp.hmlfhirmongo.config.MongoConfiguration;
+import org.nmdp.hmlfhirmongo.models.ConversionStatus;
+import org.nmdp.hmlfhirmongo.models.Status;
 
-public class MongoHmlDatabase extends MongoDatabase {
+public class MongoConversionStatusDatabase extends MongoDatabase {
 
     private final MongoCollection<Document> collection;
 
-    public MongoHmlDatabase(MongoConfiguration config) {
+    public MongoConversionStatusDatabase(MongoConfiguration config) {
         super(config.getConnectionString(), config.getPort(), config.getDatabaseName());
-        collection = super.database.getCollection("hml");
+        collection = super.database.getCollection("conversionStatus");
     }
 
-    public org.nmdp.hmlfhirconvertermodels.dto.Hml save(org.nmdp.hmlfhirconvertermodels.dto.Hml hml) {
-        Document document = toDocument(hml);
+    public ConversionStatus save(ConversionStatus conversionStatus) {
+        Document document = toDocument(conversionStatus);
         collection.insertOne(document);
-        hml.setId(document.get("_id").toString());
-        return hml;
+        conversionStatus.setId(document.get("_id").toString());
+        return conversionStatus;
     }
 
-    public Hml save(Hml hml) {
-        Document document = toDocument(hml);
-        collection.insertOne(document);
-        hml.setId(document.get("_id").toString());
-        return hml;
+    public void update(String id, Boolean success, String fhirId) {
+        Document update = new Document("fhirId", fhirId).append("status", success ? Status.COMPLETE : Status.ERROR)
+                .append("endTime", new DateTime()).append("success", success);
+
+        collection.updateOne(Filters.eq("_id", id), update);
     }
 
     public Document get(String id) {
         return collection.find(Filters.eq("_id", id)).first();
     }
 
-    private String toJson(Hml hml) {
+    public String toJson(ConversionStatus conversionStatus) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
-        return gson.toJson(hml);
+        return gson.toJson(conversionStatus);
     }
 
-    private String toJson(org.nmdp.hmlfhirconvertermodels.dto.Hml hml) {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
-        return gson.toJson(hml);
-    }
-
-    private Document toDocument(Hml hml) {
-        return Document.parse(toJson(hml));
-    }
-
-    private Document toDocument(org.nmdp.hmlfhirconvertermodels.dto.Hml hml) {
-        return Document.parse(toJson(hml));
+    private Document toDocument(ConversionStatus conversionStatus) {
+        return Document.parse(toJson(conversionStatus));
     }
 }
