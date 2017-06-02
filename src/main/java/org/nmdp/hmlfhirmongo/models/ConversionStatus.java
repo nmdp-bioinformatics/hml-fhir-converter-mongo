@@ -25,8 +25,8 @@ package org.nmdp.hmlfhirmongo.models;
  */
 
 import org.bson.types.ObjectId;
-import org.joda.time.DateTime;
 
+import java.util.Date;
 import java.io.Serializable;
 
 
@@ -38,18 +38,16 @@ public class ConversionStatus implements Serializable {
     private Boolean complete;
     private Boolean success;
     private Integer size;
-    private DateTime startTime;
-    private DateTime endTime;
+    private Date startTime;
+    private Date endTime;
 
     public ConversionStatus(String hmlId, Status status, Integer size) {
         this.complete = false;
         this.success = false;
-        this.startTime = new DateTime();
+        this.startTime = new Date();
         this.hmlId = hmlId;
         this.status = status;
         this.size = size;
-        this.fhirId = new ObjectId().toString();
-        this.endTime = new DateTime();
     }
 
     public String getId() {

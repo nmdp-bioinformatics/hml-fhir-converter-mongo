@@ -24,7 +24,9 @@ package org.nmdp.hmlfhirmongo.models;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public enum Status {
+import java.io.Serializable;
+
+public enum Status implements Serializable {
     QUEUED,
     PROCESSING,
     COMPLETE,
