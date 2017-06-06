@@ -36,6 +36,8 @@ import org.bson.types.ObjectId;
 
 import java.util.Date;
 
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.FhirMessage;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 import org.nmdp.hmlfhirmongo.config.MongoConfiguration;
 import org.nmdp.hmlfhirmongo.models.ConversionStatus;
 import org.nmdp.hmlfhirmongo.models.Status;
@@ -56,11 +58,25 @@ public class MongoConversionStatusDatabase extends MongoDatabase {
         return conversionStatus;
     }
 
-    public void update(String id, Boolean success, String fhirId) {
+    public void update(String id, Boolean success, FhirMessage fhir) {
         BasicDBObject update = new BasicDBObject();
         BasicDBObject set = new BasicDBObject();
 
-        update.put("fhirId", fhirId);
+        update.put("fhirId", fhir.getId());
+        update.put("status", success ? Status.COMPLETE.toString() : Status.ERROR.toString());
+        update.put("endTime", new Date());
+        update.put("success", success);
+        update.put("complete", true);
+        set.put("$set", update);
+
+        collection.updateOne(Filters.eq("_id", new ObjectId(id)), set);
+    }
+
+    public void update(String id, Boolean success, Hml hml) {
+        BasicDBObject update = new BasicDBObject();
+        BasicDBObject set = new BasicDBObject();
+
+        update.put("hmlId", hml.getId());
         update.put("status", success ? Status.COMPLETE.toString() : Status.ERROR.toString());
         update.put("endTime", new Date());
         update.put("success", success);
