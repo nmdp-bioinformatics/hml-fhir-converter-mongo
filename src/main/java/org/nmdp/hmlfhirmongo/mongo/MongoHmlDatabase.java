@@ -30,7 +30,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import org.nmdp.hmlfhirconvertermodels.domain.Hml;
+import org.nmdp.hmlfhirconvertermodels.domain.hml.Hml;
 import org.nmdp.hmlfhirmongo.config.MongoConfiguration;
 
 public class MongoHmlDatabase extends MongoDatabase {
@@ -42,7 +42,7 @@ public class MongoHmlDatabase extends MongoDatabase {
         collection = super.database.getCollection("hml");
     }
 
-    public org.nmdp.hmlfhirconvertermodels.dto.Hml save(org.nmdp.hmlfhirconvertermodels.dto.Hml hml) {
+    public org.nmdp.hmlfhirconvertermodels.dto.hml.Hml save(org.nmdp.hmlfhirconvertermodels.dto.hml.Hml hml) {
         Document document = toDocument(hml);
         collection.insertOne(document);
         hml.setId(document.get("_id").toString());
@@ -66,7 +66,7 @@ public class MongoHmlDatabase extends MongoDatabase {
         return gson.toJson(hml);
     }
 
-    private String toJson(org.nmdp.hmlfhirconvertermodels.dto.Hml hml) {
+    private String toJson(org.nmdp.hmlfhirconvertermodels.dto.hml.Hml hml) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
         return gson.toJson(hml);
@@ -76,7 +76,7 @@ public class MongoHmlDatabase extends MongoDatabase {
         return Document.parse(toJson(hml));
     }
 
-    private Document toDocument(org.nmdp.hmlfhirconvertermodels.dto.Hml hml) {
+    private Document toDocument(org.nmdp.hmlfhirconvertermodels.dto.hml.Hml hml) {
         return Document.parse(toJson(hml));
     }
 }

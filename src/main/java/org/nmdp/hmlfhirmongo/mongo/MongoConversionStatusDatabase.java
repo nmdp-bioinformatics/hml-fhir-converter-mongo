@@ -37,7 +37,7 @@ import org.bson.types.ObjectId;
 import java.util.Date;
 
 import org.nmdp.hmlfhirconvertermodels.domain.fhir.FhirMessage;
-import org.nmdp.hmlfhirconvertermodels.dto.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.hml.Hml;
 import org.nmdp.hmlfhirmongo.config.MongoConfiguration;
 import org.nmdp.hmlfhirmongo.models.ConversionStatus;
 import org.nmdp.hmlfhirmongo.models.Status;
