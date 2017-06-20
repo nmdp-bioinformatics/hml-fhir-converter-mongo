@@ -30,7 +30,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import org.nmdp.hmlfhirconvertermodels.dto.fhir.FhirMessage;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.FhirMessage;
 import org.nmdp.hmlfhirmongo.config.MongoConfiguration;
 
 public class MongoFhirDatabase extends MongoDatabase {
