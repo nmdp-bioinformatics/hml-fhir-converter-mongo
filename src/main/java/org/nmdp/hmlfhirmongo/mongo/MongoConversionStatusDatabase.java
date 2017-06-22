@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 
@@ -88,6 +89,10 @@ public class MongoConversionStatusDatabase extends MongoDatabase {
 
     public Document get(String id) {
         return collection.find(Filters.eq("_id", new ObjectId(id))).first();
+    }
+
+    public FindIterable<Document> getMany(Integer maxReturn) {
+        return collection.find().limit(maxReturn);
     }
 
     public String toJson(ConversionStatus conversionStatus) {

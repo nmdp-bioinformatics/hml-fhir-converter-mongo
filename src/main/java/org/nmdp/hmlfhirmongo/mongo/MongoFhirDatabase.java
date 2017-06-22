@@ -49,6 +49,13 @@ public class MongoFhirDatabase extends MongoDatabase {
         return fhir;
     }
 
+    public org.nmdp.hmlfhirconvertermodels.dto.fhir.FhirMessage save(org.nmdp.hmlfhirconvertermodels.dto.fhir.FhirMessage fhir) {
+        Document document = toDocument(fhir);
+        collection.insertOne(document);
+        fhir.setId(document.get("_id").toString());
+        return fhir;
+    }
+    
     public Document get(String id) {
         return collection.find(Filters.eq("_id", new ObjectId(id))).first();
     }
@@ -59,7 +66,17 @@ public class MongoFhirDatabase extends MongoDatabase {
         return gson.toJson(fhir);
     }
 
+    public String toJson(org.nmdp.hmlfhirconvertermodels.dto.fhir.FhirMessage fhir) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(fhir);
+    }
+
     private Document toDocument(FhirMessage fhir) {
+        return Document.parse(toJson(fhir));
+    }
+
+    private Document toDocument(org.nmdp.hmlfhirconvertermodels.dto.fhir.FhirMessage fhir) {
         return Document.parse(toJson(fhir));
     }
 }
