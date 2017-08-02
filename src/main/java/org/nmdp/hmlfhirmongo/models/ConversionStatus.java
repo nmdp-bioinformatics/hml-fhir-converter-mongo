@@ -24,16 +24,14 @@ package org.nmdp.hmlfhirmongo.models;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.bson.types.ObjectId;
-
 import java.util.Date;
 import java.io.Serializable;
-
 
 public class ConversionStatus implements Serializable {
     private String id;
     private String hmlId;
     private String fhirId;
+    private String fhirSubmissionId;
     private Status status;
     private Boolean complete;
     private Boolean success;
@@ -73,6 +71,10 @@ public class ConversionStatus implements Serializable {
     public void setFhirId(String fhirId) {
         this.fhirId = fhirId;
     }
+
+    public String getFhirSubmissionId() { return fhirSubmissionId; }
+
+    public void setFhirSubmissionId(String fhirSubmissionId) { this.fhirSubmissionId = fhirSubmissionId; }
 
     public Status getStatus() {
         return status;
@@ -116,6 +118,7 @@ public class ConversionStatus implements Serializable {
         if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
         if (getHmlId() != null ? !getHmlId().equals(that.getHmlId()) : that.getHmlId() != null) return false;
         if (getFhirId() != null ? !getFhirId().equals(that.getFhirId()) : that.getFhirId() != null) return false;
+        if (getFhirSubmissionId() != null ? !getFhirSubmissionId().equals(that.getFhirSubmissionId()) : that.getFhirSubmissionId() != null) return false;
         if (getStatus() != null ? !getStatus().equals(that.getStatus()) : that.getStatus() != null) return false;
         if (getComplete() != null ? !getComplete().equals(that.getComplete()) : that.getComplete() != null)
             return false;
@@ -128,6 +131,7 @@ public class ConversionStatus implements Serializable {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getHmlId() != null ? getHmlId().hashCode() : 0);
         result = 31 * result + (getFhirId() != null ? getFhirId().hashCode() : 0);
+        result = 31 * result + (getFhirSubmissionId() != null ? getFhirSubmissionId().hashCode() : 0);
         result = 31 * result + (getStatus() != null ? getStatus().hashCode() : 0);
         result = 31 * result + (getComplete() != null ? getComplete().hashCode() : 0);
         result = 31 * result + (getSuccess() != null ? getSuccess().hashCode() : 0);
