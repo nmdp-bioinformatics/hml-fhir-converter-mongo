@@ -24,6 +24,8 @@ package org.nmdp.hmlfhirmongo.models;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.bson.Document;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -38,6 +40,10 @@ public class ConversionStatus implements Serializable {
     private Integer size;
     private Date startTime;
     private Date endTime;
+
+    private ConversionStatus() {
+
+    }
 
     public ConversionStatus(String hmlId, Status status, Integer size) {
         this.complete = false;
@@ -106,6 +112,39 @@ public class ConversionStatus implements Serializable {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public static ConversionStatus fromDocument(Document document) {
+        ConversionStatus status = new ConversionStatus();
+
+        status.setId(document.getString("_id"));
+        status.setHmlId(document.getString("hmlId"));
+        status.setFhirId(document.getString("fhirId"));
+        status.setFhirSubmissionId(document.getString("fhirSubmissionId"));
+        status.setStatus(Status.valueOf(document.getString("status")));
+        status.setComplete(document.getBoolean("complete"));
+        status.setSuccess(document.getBoolean("success"));
+        status.setSize(document.getInteger("size"));
+        status.setStartTime(new Date(document.getString("startTime")));
+        status.setEndTime(document.getDate("endTime"));
+
+        return status;
     }
 
     @Override

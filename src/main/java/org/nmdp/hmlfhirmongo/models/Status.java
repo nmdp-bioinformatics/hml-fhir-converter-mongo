@@ -29,6 +29,8 @@ import java.io.Serializable;
 public enum Status implements Serializable {
     QUEUED,
     PROCESSING,
+    PRESUBMISSION,
+    SUBMITTING,
     COMPLETE,
     ERROR
 }
