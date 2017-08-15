@@ -67,9 +67,26 @@ public class MongoConversionStatusDatabase extends MongoDatabase {
         update.put("status", success ? Status.COMPLETE.toString() : Status.ERROR.toString());
         update.put("endTime", new Date());
         update.put("success", success);
-        update.put("complete", true);
         set.put("$set", update);
 
+        collection.updateOne(Filters.eq("_id", new ObjectId(id)), set);
+    }
+
+    public void update(String id, Status status) {
+        BasicDBObject update = new BasicDBObject();
+        BasicDBObject set = new BasicDBObject();
+
+        update.put("status", status.toString());
+        update.put("endTime", new Date());
+
+        if (status == Status.COMPLETE) {
+            update.put("complete", true);
+        } else if (status == Status.ERROR) {
+            update.put("complete", true);
+            update.put("success", false);
+        }
+
+        set.put("$set", update);
         collection.updateOne(Filters.eq("_id", new ObjectId(id)), set);
     }
 
