@@ -24,11 +24,11 @@ package org.nmdp.hmlfhirmongo.models;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
+
+import org.nmdp.fhirsubmission.object.HmlSubmission;
 
 public class FhirSubmission implements Serializable {
     private String id;
@@ -37,7 +37,7 @@ public class FhirSubmission implements Serializable {
     private String exception;
     private Date startTime;
     private Date endTime;
-    private Map<String, DiagnosticReport> diagnosticReports;
+    HmlSubmission submissionResult;
 
     public String getId() {
         return id;
@@ -87,47 +87,42 @@ public class FhirSubmission implements Serializable {
         this.endTime = endTime;
     }
 
-    public Map<String, DiagnosticReport> getDiagnosticReports() {
-        return diagnosticReports;
+    public HmlSubmission getSubmissionResult() {
+        return submissionResult;
     }
 
-    public void setDiagnosticReports(Map<String, DiagnosticReport> diagnosticReports) {
-        this.diagnosticReports = diagnosticReports;
-    }
-
-    public void addDiagnosticReport(String id, DiagnosticReport report) {
-        if (this.diagnosticReports == null) {
-            this.diagnosticReports = new HashMap<>();
-        }
-
-        this.diagnosticReports.put(id, report);
+    public void setSubmissionResult(HmlSubmission submissionResult) {
+        this.submissionResult = submissionResult;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof FhirSubmission)) return false;
 
         FhirSubmission that = (FhirSubmission) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (complete != null ? !complete.equals(that.complete) : that.complete != null) return false;
-        if (error != null ? !error.equals(that.error) : that.error != null) return false;
-        if (exception != null ? !exception.equals(that.exception) : that.exception != null) return false;
-        if (startTime != null ? !startTime.equals(that.startTime) : that.startTime != null) return false;
-        if (endTime != null ? !endTime.equals(that.endTime) : that.endTime != null) return false;
-        return diagnosticReports != null ? diagnosticReports.equals(that.diagnosticReports) : that.diagnosticReports == null;
+        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
+        if (getComplete() != null ? !getComplete().equals(that.getComplete()) : that.getComplete() != null)
+            return false;
+        if (getError() != null ? !getError().equals(that.getError()) : that.getError() != null) return false;
+        if (getException() != null ? !getException().equals(that.getException()) : that.getException() != null)
+            return false;
+        if (getStartTime() != null ? !getStartTime().equals(that.getStartTime()) : that.getStartTime() != null)
+            return false;
+        if (getEndTime() != null ? !getEndTime().equals(that.getEndTime()) : that.getEndTime() != null) return false;
+        return getSubmissionResult() != null ? getSubmissionResult().equals(that.getSubmissionResult()) : that.getSubmissionResult() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (complete != null ? complete.hashCode() : 0);
-        result = 31 * result + (error != null ? error.hashCode() : 0);
-        result = 31 * result + (exception != null ? exception.hashCode() : 0);
-        result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
-        result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
-        result = 31 * result + (diagnosticReports != null ? diagnosticReports.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getComplete() != null ? getComplete().hashCode() : 0);
+        result = 31 * result + (getError() != null ? getError().hashCode() : 0);
+        result = 31 * result + (getException() != null ? getException().hashCode() : 0);
+        result = 31 * result + (getStartTime() != null ? getStartTime().hashCode() : 0);
+        result = 31 * result + (getEndTime() != null ? getEndTime().hashCode() : 0);
+        result = 31 * result + (getSubmissionResult() != null ? getSubmissionResult().hashCode() : 0);
         return result;
     }
 }
