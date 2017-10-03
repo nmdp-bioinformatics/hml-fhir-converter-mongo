@@ -24,8 +24,10 @@ package org.nmdp.hmlfhirmongo.models;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
 
 import org.nmdp.fhirsubmission.object.HmlSubmission;
 
@@ -36,7 +38,11 @@ public class FhirSubmission implements Serializable {
     private String exception;
     private Date startTime;
     private Date endTime;
-    HmlSubmission submissionResult;
+    List<HmlSubmission> submissionResult;
+
+    public FhirSubmission() {
+        submissionResult = new ArrayList<>();
+    }
 
     public String getId() {
         return id;
@@ -86,12 +92,20 @@ public class FhirSubmission implements Serializable {
         this.endTime = endTime;
     }
 
-    public HmlSubmission getSubmissionResult() {
+    public List<HmlSubmission> getSubmissionResult() {
         return submissionResult;
     }
 
-    public void setSubmissionResult(HmlSubmission submissionResult) {
+    public void setSubmissionResult(List<HmlSubmission> submissionResult) {
         this.submissionResult = submissionResult;
+    }
+
+    public void addSubmissionResult(List<HmlSubmission> submissionResults) {
+        this.submissionResult.addAll(submissionResults);
+    }
+
+    public void addSubmissionResult(HmlSubmission submissionResult) {
+        this.submissionResult.add(submissionResult);
     }
 
     @Override
