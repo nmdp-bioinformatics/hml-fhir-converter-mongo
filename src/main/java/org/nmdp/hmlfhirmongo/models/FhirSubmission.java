@@ -26,7 +26,6 @@ package org.nmdp.hmlfhirmongo.models;
 
 import java.util.Date;
 import java.io.Serializable;
-import java.util.Map;
 
 import org.nmdp.fhirsubmission.object.HmlSubmission;
 
