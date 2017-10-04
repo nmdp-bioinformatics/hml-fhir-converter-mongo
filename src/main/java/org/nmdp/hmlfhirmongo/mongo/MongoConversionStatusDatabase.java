@@ -72,6 +72,20 @@ public class MongoConversionStatusDatabase extends MongoDatabase {
         collection.updateOne(Filters.eq("_id", new ObjectId(id)), set);
     }
 
+    public void update(String id, Boolean success, FhirMessage fhir, String submissionId) {
+        BasicDBObject update = new BasicDBObject();
+        BasicDBObject set = new BasicDBObject();
+
+        update.put("fhirId", fhir.getFhirId());
+        update.put("status", success ? Status.COMPLETE.toString() : Status.ERROR.toString());
+        update.put("endTime", new Date());
+        update.put("success", success);
+        update.put("fhirSubmissionId", submissionId);
+        set.put("$set", update);
+
+        collection.updateOne(Filters.eq("_id", new ObjectId(id)), set);
+    }
+
     public void update(String id, Status status) {
         BasicDBObject update = new BasicDBObject();
         BasicDBObject set = new BasicDBObject();
@@ -106,6 +120,10 @@ public class MongoConversionStatusDatabase extends MongoDatabase {
 
     public Document get(String id) {
         return collection.find(Filters.eq("_id", new ObjectId(id))).first();
+    }
+
+    public Document getByFhirId(String fhirId) {
+        return collection.find(Filters.eq("fhirId", fhirId)).first();
     }
 
     public FindIterable<Document> getMany(Integer maxReturn) {

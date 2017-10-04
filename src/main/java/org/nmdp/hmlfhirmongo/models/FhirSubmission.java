@@ -30,6 +30,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.nmdp.fhirsubmission.object.HmlSubmission;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.FhirMessage;
 
 public class FhirSubmission implements Serializable {
     private String id;
@@ -38,6 +39,7 @@ public class FhirSubmission implements Serializable {
     private String exception;
     private Date startTime;
     private Date endTime;
+    private FhirMessage fhirMessage;
     List<HmlSubmission> submissionResult;
 
     public FhirSubmission() {
@@ -106,6 +108,14 @@ public class FhirSubmission implements Serializable {
 
     public void addSubmissionResult(HmlSubmission submissionResult) {
         this.submissionResult.add(submissionResult);
+    }
+
+    public FhirMessage getFhirMessage() {
+        return fhirMessage;
+    }
+
+    public void setFhirMessage(FhirMessage fhirMessage) {
+        this.fhirMessage = fhirMessage;
     }
 
     @Override
